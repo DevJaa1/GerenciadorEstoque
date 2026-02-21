@@ -2,11 +2,13 @@ package com.estoque.GerenciadorEstoque.Entidade;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
 import java.util.List;
 
 @Entity
 @Table(name = "categoria")
+@Builder
 public class Categoria {
 
     @Id

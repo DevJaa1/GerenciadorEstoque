@@ -1,6 +1,7 @@
 package com.estoque.GerenciadorEstoque.Services;
 
 import com.estoque.GerenciadorEstoque.Entidade.Categoria;
+import com.estoque.GerenciadorEstoque.Entidade.MovimentacaoEstoque;
 import com.estoque.GerenciadorEstoque.Entidade.Produto;
 import com.estoque.GerenciadorEstoque.Repositorio.CategoriaRepositorio;
 import com.estoque.GerenciadorEstoque.Repositorio.ProdutoRepositorio;
@@ -29,7 +30,7 @@ public class ProdutoService {
     }
 
     // Find by id
-    public Produto findAllProductById(Long idProduto) {
+    public Produto ProductById(Long idProduto) {
         return produtoRepo.findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Product Not Found!"));
     }
@@ -148,4 +149,15 @@ public class ProdutoService {
 
         return produtoRepo.save(productExist);
     }
+
+    //delete product by id
+    @Transactional
+    public void deleteProductId(Long id) {
+        if(!produtoRepo.existsById(id)) {
+            throw new RuntimeException("Product not found!");
+        }
+        produtoRepo.deleteById(id);
+    }
+
+
 }

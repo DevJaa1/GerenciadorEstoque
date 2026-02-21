@@ -1,16 +1,16 @@
 package com.estoque.GerenciadorEstoque.Entidade;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Table(name = "produtos")
+@Table(name = "produto")
 public class Produto {
 
     @Id
@@ -75,11 +75,31 @@ public class Produto {
         this.precoVenda = precoVenda;
     }
 
+
+    @Transactional
+    public void entryItem (Integer amout) {
+        if(amout== null || amout <=0 ) {
+            throw new RuntimeException("Amount must be greater than 0.");
+        }
+
+        this.quantidadeItens+=amout;
+    }
+
+    @Transactional
+    public void exitItem (Integer amout) {
+        if(amout == null || amout <= 0) {
+            throw new RuntimeException("Amount Invalid!");
+        }
+
+        if(this.quantidadeItens < amout ) {
+            throw  new RuntimeException("Stock insufficient");
+        }
+
+        this.quantidadeItens -= amout;
+    }
     // Getters e Setters
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() {return id;}
 
     public String getNomeProduto() {
         return nomeProduto;

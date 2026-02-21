@@ -25,7 +25,6 @@ public class Fornecedor {
     private List<Produto> produtos;
 
 
-
     // Construtor vazio exigido pelo JPA
     public Fornecedor() {
     }
