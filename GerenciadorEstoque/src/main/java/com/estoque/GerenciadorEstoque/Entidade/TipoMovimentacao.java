@@ -4,6 +4,8 @@ public enum TipoMovimentacao {
 
     ENTRADA,
     SAIDA,
-    RETORNO
+    RETORNO,
+    COMPRA,
+    VENDA
 }
 

@@ -66,7 +66,7 @@ public class Categoria {
         this.produtos = produtos;
     }
 
-    // equals e hashCode baseados apenas no ID (padrão correto para JPA)
+    // equals e hashCode baseados apena s no ID (padrão correto para JPA)
 
     @Override
     public boolean equals(Object o) {

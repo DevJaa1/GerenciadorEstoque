@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface CategoriaRepositorio extends JpaRepository <Categoria, Long > {
 
 
-
+    Long id(Long id);
 }
