@@ -30,7 +30,7 @@ public class ProdutoService {
     }
 
     // Find by id
-    public Produto ProductById(Long idProduto) {
+    public Produto productById(Long idProduto) {
         return produtoRepo.findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Product Not Found!"));
     }
