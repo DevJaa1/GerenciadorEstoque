@@ -2,6 +2,9 @@ package com.estoque.GerenciadorEstoque.Controller;
 
 import com.estoque.GerenciadorEstoque.Entidade.Produto;
 import com.estoque.GerenciadorEstoque.Services.ProdutoService;
+import jakarta.servlet.ServletRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +30,27 @@ public class ProdutoController {
     public ResponseEntity<Produto> findById (@PathVariable Long id) {
         return ResponseEntity.ok(produtoService.productById(id));
     }
+
+//Encontrar pela categoria
+    @GetMapping("/categoria")
+    public ResponseEntity<Page<Produto>> findByCategory(@RequestParam String categoryname, Pageable pageable) {
+        return ResponseEntity.ok(produtoService.listByCategory(categoryname,pageable));
+    }
+
 //salvar produto
     @PostMapping
-    public ResponseEntity<Produto> saveProduct (@RequestBody Produto produto, @PathVariable Long id) {
-        return ResponseEntity.ok(produtoService.registerProduct(produto, id));
+    public ResponseEntity<Produto> saveProduct (
+            @RequestBody Produto produto,
+            @RequestParam Long catId) {
+        Produto prdNew = produtoService.registerProduct(produto,catId);
+
+        return ResponseEntity.ok(prdNew);
     }
 //atualizar
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> attProduct (@RequestBody Produto produto, @PathVariable Long id, @PathVariable Long idCat) {
+    public ResponseEntity<Produto> attProduct (@RequestBody Produto produto,
+                                               @PathVariable Long id,
+                                               @RequestParam(required = false) Long idCat) {
         return ResponseEntity.ok(produtoService.alterProduct(id,produto,idCat));
     }
 //delete
