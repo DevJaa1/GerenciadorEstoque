@@ -4,6 +4,7 @@ import com.estoque.GerenciadorEstoque.Entidade.Fornecedor;
 import com.estoque.GerenciadorEstoque.Services.FornecedorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,39 +17,45 @@ public class FornecedorController {
         this.fornecedorService = fornecedorService;
     }
 
-    //Listar todos os fornecedores paginado
     @GetMapping
-    public Page<Fornecedor> listSupplier (Pageable pageable) {
-        return fornecedorService.listAllFornecedor(pageable);
+    public ResponseEntity<Page<Fornecedor>> listSupplier(Pageable pageable) {
+        return ResponseEntity.ok(
+                fornecedorService.listAllFornecedor(pageable)
+        );
     }
 
-
-    //Buscar fornecedor por id
     @GetMapping("/{id}")
-    public Fornecedor fornecedorById(@PathVariable Long id) {
-        return fornecedorService.findByIdSup(id);
+    public ResponseEntity<Fornecedor> fornecedorById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                fornecedorService.findByIdSup(id)
+        );
     }
 
-    //criar fornecedor
     @PostMapping
-    public Fornecedor criarFornecedor(@RequestBody Fornecedor fornecedor) {
-        return fornecedorService.saveSupplier(fornecedor);
+    public ResponseEntity<Fornecedor> criarFornecedor(
+            @RequestBody Fornecedor fornecedor) {
+
+        return ResponseEntity.ok(
+                fornecedorService.saveSupplier(fornecedor)
+        );
     }
 
-    //atualizar fornecedor
     @PutMapping("/{id}")
-    public Fornecedor attFornecedor(@PathVariable Long id, @RequestBody Fornecedor newFor) {
-        return fornecedorService.upSup(id, newFor);
+    public ResponseEntity<Fornecedor> attFornecedor(
+            @PathVariable Long id,
+            @RequestBody Fornecedor newFor) {
+
+        return ResponseEntity.ok(
+                fornecedorService.upSup(id, newFor)
+        );
     }
 
-    //deletar fornecedor
     @DeleteMapping("/{id}")
-    public void deleteFornecedor(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFornecedor(@PathVariable Long id) {
+
         fornecedorService.deleteSup(id);
+        return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 }
+
+
