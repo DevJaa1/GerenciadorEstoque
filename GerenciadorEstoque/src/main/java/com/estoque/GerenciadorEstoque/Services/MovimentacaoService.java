@@ -40,13 +40,14 @@ public class MovimentacaoService {
             prod.entryItem(amount);
         }
 
-        MovimentacaoEstoque mov = MovimentacaoEstoque.builder()
-                .produto(prod)
-                .tipo(tipo)
-                .quantidade(amount)
-                .dataHora(LocalDateTime.now())
-                .motivo(description)
-                .build();
+        MovimentacaoEstoque mov = new MovimentacaoEstoque();
+
+        mov.setQuantidade(amount);
+        mov.setTipo(tipo);
+        mov.setProduto(prod);
+        mov.setMotivo(description);
+        mov.setDataHora(LocalDateTime.now());
+
 
         produtoRepositorio.save(prod);
         return movimentacaoRepositorio.save(mov);

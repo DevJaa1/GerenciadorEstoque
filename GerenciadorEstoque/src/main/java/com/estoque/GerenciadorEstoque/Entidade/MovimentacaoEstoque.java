@@ -11,7 +11,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "movimentacao_estoque")
-@Builder
 public class MovimentacaoEstoque {
 
     @Id

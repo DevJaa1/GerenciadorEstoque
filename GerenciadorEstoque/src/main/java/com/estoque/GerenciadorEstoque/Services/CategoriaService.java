@@ -2,6 +2,8 @@ package com.estoque.GerenciadorEstoque.Services;
 
 import com.estoque.GerenciadorEstoque.Entidade.Categoria;
 import com.estoque.GerenciadorEstoque.Repositorio.CategoriaRepositorio;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class CategoriaService implements InterfaceCategoria {
     }
 
     @Override
-    public List <Categoria> listAllCategory() {
-        return categoriaRepositorio.findAll();
+    public Page<Categoria> listAllCategory(Pageable pageable) {
+        return categoriaRepositorio.findAll(pageable);
     }
 
     @Override

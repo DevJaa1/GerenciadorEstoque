@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "categoria")
-@Builder
 public class Categoria {
 
     @Id

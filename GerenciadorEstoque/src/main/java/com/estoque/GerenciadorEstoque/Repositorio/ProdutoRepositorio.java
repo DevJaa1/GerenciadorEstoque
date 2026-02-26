@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProdutoRepositorio extends JpaRepository <Produto, Long> {
+public interface ProdutoRepositorio extends JpaRepository<Produto, Long> {
 
-    Page<Produto> findCategoryByName(String nameCategory, Pageable pageable);
+    Page<Produto> findByCategoriaNomeCategoria(
+            String nomeCategoria,
+            Pageable pageable
+    );
+
     boolean existsByNomeProdutoIgnoreCase(String nomeProduto);
-
-
 }

@@ -37,7 +37,7 @@ public class ProdutoService {
 
     // Find by category pageable
     public Page<Produto> listByCategory(String nameCategory, Pageable pageable) {
-        return produtoRepo.findCategoryByName(nameCategory, pageable);
+        return produtoRepo.findByCategoriaNomeCategoria(nameCategory, pageable);
     }
 
     // =========================

@@ -3,6 +3,8 @@ package com.estoque.GerenciadorEstoque.Services;
 import com.estoque.GerenciadorEstoque.Entidade.Fornecedor;
 import com.estoque.GerenciadorEstoque.Repositorio.FornecedorRepositorio;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class FornecedorService implements InterfaceFornecedor{
         this.fornecedorRepositorio = fornecedorRepositorio;
     }
 
+    //criar fornecedor
     @Override
     public Fornecedor saveSupplier(Fornecedor sup) {
         if(sup.getNome() == null || sup.getNome().isBlank()) {
@@ -26,12 +29,16 @@ public class FornecedorService implements InterfaceFornecedor{
     return fornecedorRepositorio.save(sup);
     }
 
-    @Override
-    public List<Fornecedor> listSupplier() {
 
-        return fornecedorRepositorio.findAll();
+    //listar todos os fornecedores paginados
+    @Override
+    public Page<Fornecedor> listAllFornecedor(Pageable pageable) {
+
+        return fornecedorRepositorio.findAll(pageable);
     }
 
+
+    //encontrar fornecedores por id
     @Override
     public Fornecedor findByIdSup (Long id) {
 
@@ -40,6 +47,8 @@ public class FornecedorService implements InterfaceFornecedor{
 
     }
 
+
+    //atualizar fornecedores pelo id
     @Override
     public Fornecedor upSup(Long id, Fornecedor supAtt) {
 
@@ -50,6 +59,8 @@ public class FornecedorService implements InterfaceFornecedor{
 
     }
 
+
+    //deletar fornecedores pelo id
     @Override
     public void deleteSup(Long id) {
 
