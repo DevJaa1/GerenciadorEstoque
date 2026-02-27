@@ -24,14 +24,26 @@ public class Fornecedor {
     @OneToMany(mappedBy = "fornecedor")
     private List<Produto> produtos;
 
+    @NotBlank
+    @Size(max = 20)
+    @Column(name = "numero_fornecedor", nullable = false, length = 20)
+    private String numeroTelefone;
+
+
+    @Column(name = "endereco_fornecedor")
+    @NotBlank
+    private String enderecoFornecedor;
+
 
     // Construtor vazio exigido pelo JPA
     public Fornecedor() {
     }
 
     // Construtor opcional
-    public Fornecedor(String nome) {
+    public Fornecedor(String nome, String tel) {
+
         this.nome = nome;
+        this.numeroTelefone = tel;
     }
 
     // Getters e Setters
@@ -48,6 +60,17 @@ public class Fornecedor {
         this.nome = nome;
     }
 
+    public String getNumeroTelefone() {return numeroTelefone;}
+
+    public void setNumeroTelefone(String numeroTelefone) {this.numeroTelefone = numeroTelefone;}
+
+    public String getEnderecoFornecedor() {
+        return enderecoFornecedor;
+    }
+
+    public void setEnderecoFornecedor(String enderecoFornecedor) {
+        this.enderecoFornecedor = enderecoFornecedor;
+    }
 
     // equals e hashCode baseados no id
 

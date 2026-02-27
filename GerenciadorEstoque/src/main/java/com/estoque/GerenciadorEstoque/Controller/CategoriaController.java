@@ -2,10 +2,9 @@ package com.estoque.GerenciadorEstoque.Controller;
 
 import com.estoque.GerenciadorEstoque.Entidade.Categoria;
 import com.estoque.GerenciadorEstoque.Services.CategoriaService;
-import com.estoque.GerenciadorEstoque.Services.ProdutoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,32 +20,43 @@ public class CategoriaController {
 
 //rota listar todas as categorias paginadas
     @GetMapping
-    public Page<Categoria> listAllCat (Pageable pageable) {
-        return catService.listAllCategory(pageable);
+    public ResponseEntity<Page<Categoria>> listAllCat (Pageable pageable) {
+        return ResponseEntity.ok(catService.listAllCategory(pageable));
     }
 
 //rota para criar categorias
     @PostMapping
-    public Categoria creatCat (@RequestBody Categoria catNew) {
-        return catService.saveCategory(catNew);
+    public ResponseEntity<Categoria> creatCat (
+            @RequestBody Categoria catNew) {
+
+        Categoria cat = catService.saveCategory(catNew);
+        return ResponseEntity.status(201).body(cat);
     }
 
 //Buscar categoria por id
     @GetMapping("/{id}")
-    public Categoria catById(@PathVariable Long id) {
-        return catService.findIdCategory(id);
+    public ResponseEntity<Categoria> catById(
+            @PathVariable Long id) {
+
+            return ResponseEntity.ok(catService.findIdCategory(id));
     }
 
 //Atualizar categoria
     @PutMapping("/{id}")
-    public Categoria attCat(@RequestBody Categoria catAtt, @PathVariable Long id) {
-        return catService.updateCategory(id,catAtt);
+    public ResponseEntity<Categoria> attCat(
+            @RequestBody Categoria catAtt,
+            @PathVariable Long id) {
+
+            return ResponseEntity.ok(catService.updateCategory(id,catAtt));
     }
 
 //deletar categoria por id
     @DeleteMapping("/{id}")
-    public void delCat(@PathVariable Long id) {
+    public ResponseEntity<Void> delCat(@PathVariable Long id) {
+
         catService.deleteCategoryId(id);
+        return ResponseEntity.noContent().build();
+
     }
 
 

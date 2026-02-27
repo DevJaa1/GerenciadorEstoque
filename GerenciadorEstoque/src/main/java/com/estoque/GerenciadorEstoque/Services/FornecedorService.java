@@ -24,7 +24,14 @@ public class FornecedorService implements InterfaceFornecedor{
     public Fornecedor saveSupplier(Fornecedor sup) {
         if(sup.getNome() == null || sup.getNome().isBlank()) {
             throw new IllegalArgumentException("O nome do fornecedor é obrigatório.");
+        }
 
+        if(sup.getNumeroTelefone() == null || sup.getNumeroTelefone().isBlank()) {
+            throw new IllegalArgumentException("Telefone Inválido!");
+        }
+
+        if(sup.getEnderecoFornecedor() == null || sup.getEnderecoFornecedor().isBlank()) {
+            throw new IllegalArgumentException("Endereço Inválido");
         }
     return fornecedorRepositorio.save(sup);
     }
@@ -54,7 +61,9 @@ public class FornecedorService implements InterfaceFornecedor{
 
         Fornecedor supExist = findByIdSup(id);
 
+        supExist.setNumeroTelefone(supAtt.getNumeroTelefone());
         supExist.setNome(supAtt.getNome());
+        supExist.setEnderecoFornecedor(supExist.getEnderecoFornecedor());
         return fornecedorRepositorio.save(supExist);
 
     }
