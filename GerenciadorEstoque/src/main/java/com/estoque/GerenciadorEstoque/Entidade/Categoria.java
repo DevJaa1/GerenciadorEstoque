@@ -1,8 +1,8 @@
 package com.estoque.GerenciadorEstoque.Entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
 
 import java.util.List;
 
@@ -22,18 +22,16 @@ public class Categoria {
     @NotBlank(message = "A descrição da categoria é obrigatória")
     private String descricao;
 
-    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "categoria")
+    @JsonIgnore
     private List<Produto> produtos;
 
-    public Categoria() {
-    }
+    public Categoria() {}
 
     public Categoria(String nomeCategoria, String descricao) {
         this.nomeCategoria = nomeCategoria;
         this.descricao = descricao;
     }
-
-    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -67,13 +65,11 @@ public class Categoria {
         this.produtos = produtos;
     }
 
-    // equals e hashCode baseados apena s no ID (padrão correto para JPA)
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Categoria other)) return false;
-         return id != null && id.equals(other.id);
+        return id != null && id.equals(other.id);
     }
 
     @Override

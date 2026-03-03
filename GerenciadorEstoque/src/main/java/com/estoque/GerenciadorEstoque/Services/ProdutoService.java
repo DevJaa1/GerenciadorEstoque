@@ -1,9 +1,11 @@
 package com.estoque.GerenciadorEstoque.Services;
 
 import com.estoque.GerenciadorEstoque.Entidade.Categoria;
+import com.estoque.GerenciadorEstoque.Entidade.Fornecedor;
 import com.estoque.GerenciadorEstoque.Entidade.MovimentacaoEstoque;
 import com.estoque.GerenciadorEstoque.Entidade.Produto;
 import com.estoque.GerenciadorEstoque.Repositorio.CategoriaRepositorio;
+import com.estoque.GerenciadorEstoque.Repositorio.FornecedorRepositorio;
 import com.estoque.GerenciadorEstoque.Repositorio.ProdutoRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -18,10 +20,12 @@ public class ProdutoService {
 
     private final ProdutoRepositorio produtoRepo;
     private final CategoriaRepositorio catRepo;
+    private final FornecedorRepositorio fornecedorRepo;
 
-    public ProdutoService(ProdutoRepositorio produtoRepo, CategoriaRepositorio catRepo) {
+    public ProdutoService(ProdutoRepositorio produtoRepo, CategoriaRepositorio catRepo, FornecedorRepositorio fornecedorRepo) {
         this.produtoRepo = produtoRepo;
         this.catRepo = catRepo;
+        this.fornecedorRepo = fornecedorRepo;
     }
 
     // Find all
@@ -46,11 +50,24 @@ public class ProdutoService {
     @Transactional
     public Produto registerProduct(Produto newProd, Long categoriaId) {
 
+        if(newProd.getFornecedor() == null ||
+                newProd.getFornecedor().getId() == null){
+            throw new RuntimeException("Supplier must be informed");
+        }
+
         Categoria catSearch = catRepo.findById(categoriaId)
                 .orElseThrow(() -> new RuntimeException("Category Not Found"));
 
+        Fornecedor fornecedor = fornecedorRepo
+                .findById(newProd.getFornecedor().getId())
+                .orElseThrow(() -> new RuntimeException("Supplier Not Found"));
+
         if (produtoRepo.existsByNomeProdutoIgnoreCase(newProd.getNomeProduto())) {
             throw new RuntimeException("Product already registered!");
+        }
+
+        if (newProd.getQuantidadeItens() == null || newProd.getQuantidadeItens() < 0) {
+            throw new RuntimeException("Invalid stock quantity");
         }
 
         if (newProd.getPrecoCusto() == null ||
@@ -68,14 +85,8 @@ public class ProdutoService {
             throw new RuntimeException("Sale price cannot be lower than cost price");
         }
 
-        // estoque deve iniciar 0
-        if (newProd.getQuantidadeItens() != null &&
-                newProd.getQuantidadeItens() != 0) {
-            throw new RuntimeException("Stock must start at zero");
-        }
-
         newProd.setCategoria(catSearch);
-        newProd.setQuantidadeItens(0);
+        newProd.setFornecedor(fornecedor);
         newProd.setAtivo(true);
 
         return produtoRepo.save(newProd);

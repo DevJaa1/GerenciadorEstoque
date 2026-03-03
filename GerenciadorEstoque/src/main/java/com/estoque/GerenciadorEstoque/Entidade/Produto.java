@@ -44,12 +44,13 @@ public class Produto {
     @PositiveOrZero
     private BigDecimal precoCusto;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private Categoria categoria;
 
     @OneToMany(mappedBy = "produto")
     private List<MovimentacaoEstoque> movimentacoes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "fornecedor_id", nullable = false)
@@ -76,7 +77,6 @@ public class Produto {
     }
 
 
-    @Transactional
     public void entryItem (Integer amout) {
         if(amout== null || amout <=0 ) {
             throw new RuntimeException("Amount must be greater than 0.");
@@ -85,7 +85,6 @@ public class Produto {
         this.quantidadeItens+=amout;
     }
 
-    @Transactional
     public void exitItem (Integer amout) {
         if(amout == null || amout <= 0) {
             throw new RuntimeException("Amount Invalid!");
@@ -152,6 +151,22 @@ public class Produto {
     public Categoria getCategoria() {return categoria;}
 
     public void setCategoria(Categoria categoria) {this.categoria = categoria;}
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public List<MovimentacaoEstoque> getMovimentacoes() {
+        return movimentacoes;
+    }
+
+    public void setMovimentacoes(List<MovimentacaoEstoque> movimentacoes) {
+        this.movimentacoes = movimentacoes;
+    }
 
     @Override
     public boolean equals(Object o) {

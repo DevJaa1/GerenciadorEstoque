@@ -5,6 +5,7 @@ import com.estoque.GerenciadorEstoque.Services.ProdutoService;
 import jakarta.servlet.ServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,20 +33,21 @@ public class ProdutoController {
     }
 
 //Encontrar pela categoria
-    @GetMapping("/categoria")
+    @GetMapping("/categorias")
     public ResponseEntity<Page<Produto>> findByCategory(@RequestParam String categoryname, Pageable pageable) {
         return ResponseEntity.ok(produtoService.listByCategory(categoryname,pageable));
     }
 
 //salvar produto
-    @PostMapping
-    public ResponseEntity<Produto> saveProduct (
-            @RequestBody Produto produto,
-            @RequestParam Long catId) {
-        Produto prdNew = produtoService.registerProduct(produto,catId);
+@PostMapping("/categorias/{categoriaId}/produtos")
+public ResponseEntity<Produto> saveProduct(
+        @RequestBody Produto produto,
+        @PathVariable Long categoriaId) {
 
-        return ResponseEntity.ok(prdNew);
-    }
+    Produto prdNew = produtoService.registerProduct(produto, categoriaId);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(prdNew);
+}
 //atualizar
     @PutMapping("/{id}")
     public ResponseEntity<Produto> attProduct (@RequestBody Produto produto,
