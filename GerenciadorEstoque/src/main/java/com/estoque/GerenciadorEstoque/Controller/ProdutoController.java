@@ -58,6 +58,9 @@ public ResponseEntity<Produto> saveProduct(
 //delete
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
+
+        produtoService.deleteProductId(id);
+
         return ResponseEntity.noContent().build();
     }
 
