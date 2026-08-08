@@ -102,9 +102,7 @@ public class UsuarioService {
         
         Usuario usu = usuarioRepositorio.findById(id).
         orElseThrow(()-> new RuntimeException("Usuário não encontrado!"));
-        
-        if()
-        
+                
         
         
         return null;
