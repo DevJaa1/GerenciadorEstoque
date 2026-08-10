@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,19 +25,26 @@ public class UsuarioController {
 
     // trazer todos os usuarios registrados
     @GetMapping
-    public ResponseEntity <List<Usuario>> listaResponseEntity() {
+    public ResponseEntity<List<Usuario>> listaResponseEntity() {
 
         List<Usuario> listausuarios = usuService.listarusuariosregistrados();
         return ResponseEntity.ok(listausuarios);
 
     }
-    
-    //cadastrar usuario
+
+    // cadastrar usuario
     @PostMapping
-    public ResponseEntity <Usuario> cadastrarUsuario (@RequestBody Usuario usuarionovo) {
+    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuarionovo) {
         Usuario usunovo = usuService.cadastroUsuario(usuarionovo);
 
         return ResponseEntity.ok(usunovo);
 
+    }
+
+    @PutMapping
+    public ResponseEntity<Usuario> atualizarCadastro(@RequestBody Usuario usuarioatt) {
+        Usuario usuariodadonovo = usuService.atualizarCadastro(usuarioatt);
+
+        return ResponseEntity.ok(usuariodadonovo);
     }
 }

@@ -21,12 +21,10 @@ public class Usuario {
     @NotBlank(message = "Nome deve ser Obrigatório")
     @Size(min = 3, max = 100, message = "O nome deve ter entre 3 a 100 caracteres")
     private String nome;
-    
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Usuário deve ser obrigatório")
     private String usuario;
-
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Login deve ser obrigatório")
@@ -91,8 +89,5 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    
-  
 
 }

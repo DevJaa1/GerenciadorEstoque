@@ -15,12 +15,13 @@ import jakarta.transaction.Transactional;
 @Service
 public class UsuarioService {
 
-   
     private final UsuarioController usuarioController;
+
     private final UsuarioRepositorio usuarioRepositorio;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepositorio usuarioRepositorio, PasswordEncoder pass, UsuarioController usuarioController) {
+    public UsuarioService(UsuarioRepositorio usuarioRepositorio, PasswordEncoder pass,
+            UsuarioController usuarioController) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.passwordEncoder = pass;
         this.usuarioController = usuarioController;
@@ -53,6 +54,13 @@ public class UsuarioService {
         return usuarioRepositorio.save(usucad);
     }
 
+    // buscarusuario por id
+    @Transactional
+    public Usuario buscarPorId(Long id) {
+        return usuarioRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + id));
+    }
+
     // buscar usuario pelo nome
     @Transactional
     public Usuario buscarUsuarioNome(String nome) {
@@ -68,8 +76,6 @@ public class UsuarioService {
         return usuarioRepositorio.findAll();
     }
 
-    // implementar contador de limite de tentativa
-    // recuperação de senha
     // alterar senha do usuario
     @Transactional
     public Usuario alterarSenha(String senhaAtual, String senhaNova, String email) {
@@ -78,16 +84,16 @@ public class UsuarioService {
         Usuario usuario = usuarioRepositorio.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
         // 2. Verifica se a conta está bloqueada
-        if(!usuario.isContaAtiva()) {
-           throw new RuntimeException("Não é possível alterar senha de conta desativada!");
+        if (!usuario.isContaAtiva()) {
+            throw new RuntimeException("Não é possível alterar senha de conta desativada!");
         }
         // 3. Valida se a senha atual está correta
         boolean senhaAtualValida = passwordEncoder.matches(senhaAtual, usuario.getSenhausuario());
         // 4. Garante que a nova senha seja diferente da antiga
         boolean mesmaSenha = passwordEncoder.matches(senhaAtual, senhaNova);
-        if(mesmaSenha) {
+        if (mesmaSenha) {
             throw new RuntimeException("Senha nova deve ser diferente que a senha atual");
-        }        
+        }
         // 5. Criptografa a nova senha e atualiza o usuário
         String novaSenhaEncript = passwordEncoder.encode(senhaNova);
         usuario.setSenhausuario(novaSenhaEncript);
@@ -95,20 +101,39 @@ public class UsuarioService {
         return usuarioRepositorio.save(usuario);
     }
     // autenticar usuario com senha nome de usuario
-    
+
     // atualizar dados do usuario
     @Transactional
-    public Usuario atualizarCadastro (Long id, Usuario attUsuario){
-        
-        Usuario usu = usuarioRepositorio.findById(id).
-        orElseThrow(()-> new RuntimeException("Usuário não encontrado!"));
-                
-        
-        
-        return null;
+    public Usuario atualizarCadastro(Usuario attUsuario) {
+
+        // Atualiza o email do usuario
+        Usuario usu = usuarioRepositorio.findById(attUsuario.getId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        if (attUsuario.getEmail() != null && !attUsuario.getEmail().equalsIgnoreCase(usu.getEmail())) {
+            boolean emailUso = usuarioRepositorio.findByEmailValid(attUsuario.getEmail());
+
+            if (emailUso) {
+                throw new RuntimeException("Email ja está em uso para outro usuário!");
+            }
+        }
+
+        usu.setEmail(attUsuario.getEmail());
+
+        // Atualiza o login
+        if (attUsuario.getLogin() != null && !attUsuario.getLogin().equalsIgnoreCase(usu.getLogin())) {
+            boolean loginEmUso = usuarioRepositorio.existsByLogin(attUsuario.getLogin());
+            if (loginEmUso) {
+                throw new IllegalArgumentException("Este login já está em uso por outro usuário.");
+            }
+            usu.setLogin(attUsuario.getLogin());
+        }
+
+        usu.setNome(attUsuario.getNome());
+
+        return usuarioRepositorio.save(attUsuario);
     }
 
-    // buscarusuario por id
     // inativar usuario por id
 
 }
