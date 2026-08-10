@@ -16,11 +16,11 @@ import jakarta.transaction.Transactional;
 public class UsuarioService {
 
    
-    private final GerenciadorEstoque.Controller.UsuarioController usuarioController;
+    private final UsuarioController usuarioController;
     private final UsuarioRepositorio usuarioRepositorio;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepositorio usuarioRepositorio, PasswordEncoder pass, GerenciadorEstoque.Controller.UsuarioController usuarioController) {
+    public UsuarioService(UsuarioRepositorio usuarioRepositorio, PasswordEncoder pass, UsuarioController usuarioController) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.passwordEncoder = pass;
         this.usuarioController = usuarioController;
