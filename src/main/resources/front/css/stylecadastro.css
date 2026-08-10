@@ -1,65 +1,94 @@
-body {
-
-    font-family: Arial, sans-serif;
-
-    background:#f2f2f2;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    height:100vh;
-
+/* Reset global para evitar diferenças de largura entre inputs e botões */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
 .container {
-
-    background:white;
-
-    padding:40px;
-
-    border-radius:10px;
-
-    width:350px;
-
-    box-shadow:0 0 15px #ccc;
-
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
+h1 {
+    font-size: 1.75rem;
+    color: #1f2937;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 6px;
+}
 
 input {
-
-    width:100%;
-
-    padding:10px;
-
-    margin-bottom:15px;
-
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
 
 button {
-
-    width:100%;
-
-    padding:12px;
-
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    cursor:pointer;
-
+    width: 100%;
+    padding: 12px;
+    background-color: #4f46e5;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s;
 }
 
-
 button:hover {
+    background-color: #4338ca;
+}
 
-    opacity:0.8;
+.login-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
 
+.login-text a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
 }
