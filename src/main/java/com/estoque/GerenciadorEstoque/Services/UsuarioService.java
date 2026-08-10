@@ -104,10 +104,10 @@ public class UsuarioService {
 
     // atualizar dados do usuario
     @Transactional
-    public Usuario atualizarCadastro(Usuario attUsuario) {
+    public Usuario atualizarCadastro(Usuario attUsuario, Long id) {
 
         // Atualiza o email do usuario
-        Usuario usu = usuarioRepositorio.findById(attUsuario.getId())
+        Usuario usu = usuarioRepositorio.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
         if (attUsuario.getEmail() != null && !attUsuario.getEmail().equalsIgnoreCase(usu.getEmail())) {
