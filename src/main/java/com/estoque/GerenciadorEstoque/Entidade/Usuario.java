@@ -32,7 +32,7 @@ public class Usuario {
 
     @Column
     @NotBlank(message = "Senha deve ser obrigatória")
-    @Size(min = 8, max = 16, message = "A senha deve conter entre 8 a 16 caracteres")
+    @Size(min = 8, max = 255)
     private String senhausuario;
 
     @Column
@@ -41,6 +41,8 @@ public class Usuario {
     @Column(unique = true)
     @Email
     private String email;
+
+    // --- GETTERS E SETTERS ---
 
     public Long getId() {
         return id;
@@ -56,6 +58,15 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    // ADICIONADOS: Getter e Setter para 'usuario'
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getLogin() {
@@ -89,5 +100,4 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }
