@@ -3,7 +3,6 @@ package com.estoque.GerenciadorEstoque.Controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,11 +19,14 @@ import com.estoque.GerenciadorEstoque.Entidade.Usuario;
 import com.estoque.GerenciadorEstoque.Services.UsuarioService;
 
 import jakarta.validation.Valid;
-import lombok.val;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(
+    origins = {"http://127.0.0.1:5500", "http://localhost:5500"}, 
+    allowedHeaders = "*", 
+    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS} )
+
 public class UsuarioController {
 
     private final UsuarioService usuService;
@@ -56,11 +59,29 @@ public class UsuarioController {
     }
 
     // cadastrar usuario, sempre neste mapping o 201 created
-    @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody Usuario usuarionovo) {
+   @PostMapping
+    public ResponseEntity<?> cadastrarUsuario(@Valid @RequestBody Usuario usuarionovo) {
+    try {
         Usuario usunovo = usuService.cadastroUsuario(usuarionovo);
         return ResponseEntity.status(HttpStatus.CREATED).body(usunovo);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+}
 
+    // login de usuario caadasatrdo
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUsuario(@RequestBody Usuario usuLogin) {
+        try {
+
+            Usuario usuarioAuteticado = usuService.autenticarUsuario(usuLogin.getSenhausuario(), usuLogin.getEmail());
+            return ResponseEntity.ok(usuarioAuteticado);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("E-mail inválido ou senha incorreta");
+
+        }
     }
 
     @PutMapping

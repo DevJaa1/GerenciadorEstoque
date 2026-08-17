@@ -1,33 +1,56 @@
-/* Reset global para evitar diferenças de largura entre inputs e botões */
+/* Reset global */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --bg-gradient-start: #0f0c20;
+    --bg-gradient-end: #1a153b;
+    --card-bg: rgba(255, 255, 255, 0.08);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --input-bg: rgba(255, 255, 255, 0.1);
+    --input-border: rgba(255, 255, 255, 0.2);
+    --input-focus-border: #6c5ce7;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --btn-bg: #282161;
+    --btn-hover: #3b328a;
+    --btn-text: #ffffff;
+    --link-color: #8a70ff;
+    --link-hover: #a290ff;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
+    display: flex;
+    justify-content: center; /* Centraliza o card na tela */
+    align-items: center;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    color: var(--text-primary);
+    padding: 20px;
 }
 
 .container {
-    background: #ffffff;
-    padding: 40px 30px;
-    border-radius: 12px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 40px 30px; /* Padding corrigido para nao esticar o card */
     width: 100%;
-    max-width: 380px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    max-width: 440px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 h1 {
-    font-size: 1.75rem;
-    color: #1f2937;
+    font-size: 1.85rem;
+    color: var(--text-primary);
     margin-bottom: 24px;
     text-align: center;
+    font-weight: 700;
 }
 
 .input-group {
@@ -38,57 +61,70 @@ h1 {
 
 .input-group label {
     font-size: 0.875rem;
-    font-weight: 600;
-    color: #4b5563;
+    font-weight: 500;
+    color: var(--text-secondary);
     margin-bottom: 6px;
 }
 
 input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #d1d5db;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
     border-radius: 8px;
+    color: var(--text-primary);
     font-size: 0.95rem;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.25s ease;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 input:focus {
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 8px rgba(108, 92, 231, 0.4);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 button {
     width: 100%;
     padding: 12px;
-    background-color: #4f46e5;
-    color: #ffffff;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
     font-size: 1rem;
     font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 8px;
-    transition: background-color 0.2s;
+    margin-top: 10px;
+    transition: background-color 0.25s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #4338ca;
+    background-color: var(--btn-hover);
+}
+
+button:active {
+    transform: scale(0.98);
 }
 
 .login-text {
     text-align: center;
     margin-top: 20px;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .login-text a {
-    color: #4f46e5;
+    color: var(--link-color);
     text-decoration: none;
     font-weight: 600;
+    transition: color 0.2s ease;
 }
 
 .login-text a:hover {
+    color: var(--link-hover);
     text-decoration: underline;
 }

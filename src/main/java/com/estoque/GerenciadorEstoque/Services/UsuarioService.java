@@ -76,6 +76,11 @@ public class UsuarioService {
             );
         }
 
+        if(usucad.getNome() != null) {
+                usucad.setNome(usucad.getNome().toUpperCase());
+
+        }
+
         // Criptografa a senha antes de salvar
         String senhaCriptografada =
                 passwordEncoder.encode(usucad.getSenhausuario());
