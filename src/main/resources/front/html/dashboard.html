@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockSys - Dashboard</title>
-    <!-- FontAwesome para Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Arquivo CSS -->
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
-    <!-- Sidebar / Barra Lateral -->
     <aside class="sidebar glass-panel" id="sidebar">
         <div class="sidebar-header">
             <i class="fa-solid fa-boxes-stacked logo-icon"></i>
@@ -22,7 +19,7 @@
         <nav class="sidebar-nav">
             <ul>
                 <li class="active"><a href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a href="#"><i class="fa-solid fa-box"></i> Produtos</a></li>
+                <li><a href="../html/produtos.html"><i class="fa-solid fa-box"></i> Produtos</a></li>
                 <li><a href="#"><i class="fa-solid fa-tags"></i> Categorias</a></li>
                 <li><a href="#"><i class="fa-solid fa-arrow-right-to-bracket"></i> Entradas</a></li>
                 <li><a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Saídas</a></li>
@@ -37,14 +34,12 @@
         <div class="sidebar-footer">
             <ul>
                 <li><a href="#"><i class="fa-solid fa-gear"></i> Configurações</a></li>
-                <li><a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a></li>
+                <li><a href="../html/login.html" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a></li>
             </ul>
         </div>
     </aside>
 
-    <!-- Conteúdo Principal -->
     <main class="main-content">
-        <!-- Header -->
         <header class="header">
             <div class="header-title">
                 <button class="menu-toggle" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
@@ -69,12 +64,11 @@
             </div>
         </header>
 
-        <!-- Cards de Indicadores -->
         <section class="metrics-grid">
             <div class="metric-card glass-panel">
                 <div class="card-icon"><i class="fa-solid fa-box-open"></i></div>
                 <div class="card-info">
-                    <h3>1.148</h3>
+                    <h3 id="totalProdutos">0</h3>
                     <p>Total de produtos</p>
                     <small>Produtos cadastrados</small>
                 </div>
@@ -82,7 +76,7 @@
             <div class="metric-card glass-panel">
                 <div class="card-icon"><i class="fa-solid fa-cubes"></i></div>
                 <div class="card-info">
-                    <h3>8.452</h3>
+                    <h3 id="unidadesEstoque">0</h3>
                     <p>Unidades em estoque</p>
                     <small>Unidades disponíveis</small>
                 </div>
@@ -90,7 +84,7 @@
             <div class="metric-card glass-panel warning">
                 <div class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 <div class="card-info">
-                    <h3>27</h3>
+                    <h3 id="estoqueBaixo">0</h3>
                     <p>Estoque baixo</p>
                     <small>Precisam de reposição</small>
                 </div>
@@ -98,7 +92,7 @@
             <div class="metric-card glass-panel danger">
                 <div class="card-icon"><i class="fa-solid fa-circle-xmark"></i></div>
                 <div class="card-info">
-                    <h3>8</h3>
+                    <h3 id="produtosEsgotados">0</h3>
                     <p>Produtos esgotados</p>
                     <small>Sem estoque</small>
                 </div>
@@ -106,14 +100,13 @@
             <div class="metric-card glass-panel success">
                 <div class="card-icon"><i class="fa-solid fa-wallet"></i></div>
                 <div class="card-info">
-                    <h3>R$ 184.560,00</h3>
+                    <h3 id="valorEstoque">R$ 0,00</h3>
                     <p>Valor do estoque</p>
                     <small>Valor estimado</small>
                 </div>
             </div>
         </section>
 
-        <!-- Gráficos -->
         <section class="charts-section">
             <div class="chart-container glass-panel span-2">
                 <div class="section-header">
@@ -139,7 +132,6 @@
             </div>
         </section>
 
-        <!-- Tabela de Estoque Baixo -->
         <section class="table-container glass-panel">
             <div class="section-header">
                 <h2>Produtos com estoque baixo</h2>
@@ -157,39 +149,14 @@
                             <th>Ação</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Camisa Polo</td>
-                            <td>Roupas</td>
-                            <td>3</td>
-                            <td>10</td>
-                            <td><span class="status-badge critical">Crítico</span></td>
-                            <td><button class="btn-icon"><i class="fa-solid fa-cart-plus"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Tênis Nike</td>
-                            <td>Calçados</td>
-                            <td>7</td>
-                            <td>10</td>
-                            <td><span class="status-badge low">Baixo</span></td>
-                            <td><button class="btn-icon"><i class="fa-solid fa-cart-plus"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Calça Jeans</td>
-                            <td>Roupas</td>
-                            <td>8</td>
-                            <td>15</td>
-                            <td><span class="status-badge low">Baixo</span></td>
-                            <td><button class="btn-icon"><i class="fa-solid fa-cart-plus"></i></button></td>
-                        </tr>
+                    <tbody id="tabelaEstoqueBaixo">
+                        <!-- Preenchido dinamicamente via JavaScript -->
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- Seções Inferiores -->
         <section class="bottom-grid">
-            <!-- Últimas Movimentações -->
             <div class="widget glass-panel">
                 <h2>Últimas movimentações</h2>
                 <ul class="list-group">
@@ -220,7 +187,6 @@
                 </ul>
             </div>
 
-            <!-- Mais Vendidos -->
             <div class="widget glass-panel">
                 <h2>Produtos mais vendidos</h2>
                 <ul class="ranking-list">
@@ -232,7 +198,6 @@
                 </ul>
             </div>
 
-            <!-- Alertas e Ações -->
             <div class="widget-col">
                 <div class="widget glass-panel alerts-widget">
                     <h2>Alertas</h2>
@@ -258,8 +223,7 @@
 
     </main>
 
-    <!-- Chart.js para os gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="../js/dashboard.js"></script>
 </body>
 </html>

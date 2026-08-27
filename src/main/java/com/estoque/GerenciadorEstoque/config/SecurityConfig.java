@@ -26,9 +26,8 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             
             .authorizeHttpRequests(auth -> auth
-                // Libera /usuarios (Cadastro POST), /usuarios/** (Login POST e subrotas) e /h2-console/**
-                .requestMatchers("/usuarios", "/usuarios/**", "/h2-console/**").permitAll()
-                .anyRequest().authenticated()
+                // Libera todas as rotas temporariamente para testes com o frontend
+                .anyRequest().permitAll()
             )
             
             .headers(headers -> headers

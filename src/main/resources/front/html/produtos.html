@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSys - Produtos</title>
+    <link rel="stylesheet" href="../css/produtosstyle.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <aside class="sidebar glass-panel">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-boxes-stacked logo-icon"></i>
+            <h2>StockSys</h2>
+            <button class="close-menu"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="../html/dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li class="active"><a href="../html/produtos.html"><i class="fa-solid fa-box"></i> Produtos</a></li>
+                <li><a href="#"><i class="fa-solid fa-tags"></i> Categorias</a></li>
+                <li><a href="#"><i class="fa-solid fa-arrow-right-to-bracket"></i> Entradas</a></li>
+                <li><a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Saídas</a></li>
+                <li><a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i> Movimentações</a></li>
+                <li><a href="#"><i class="fa-solid fa-truck-field"></i> Fornecedores</a></li>
+                <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> Vendas</a></li>
+                <li><a href="#"><i class="fa-solid fa-file-invoice"></i> Relatórios</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> Usuários</a></li>
+            </ul>
+        </nav>
+       <div class="sidebar-footer">
+    <ul>
+        <li>
+            <a href="#"><i class="fa-solid fa-gear"></i> Configurações</a>
+        </li>
+        <li>
+            <a href="../html/login.html" class="logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+            </a>
+        </li>
+    </ul>
+</div>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="header-title">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <h1>Gerenciar Produtos</h1>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-box glass-panel">
+                    <i class="fas fa-search" style="color: var(--text-secondary);"></i>
+                    <input type="text" id="buscaProduto" placeholder="Buscar produto...">
+                </div>
+                <button class="notification-btn glass-panel">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="user-profile">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="table-container glass-panel">
+            <div class="section-header">
+                <h2>Catálogo de Produtos</h2>
+                <div style="display: flex; gap: 10px;">
+                    <div class="filters">
+                        <button class="filter-btn active" id="filtroTodos">Todos</button>
+                        <button class="filter-btn" id="filtroBaixa">Em Baixa</button>
+                        <button class="filter-btn" id="filtroEsgotados">Esgotados</button>
+                    </div>
+                    <button class="btn-primary"><i class="fas fa-plus"></i> Novo Produto</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cód</th>
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Estoque</th>
+                            <th>Preço Unit.</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaProdutos">
+                        <!-- Preenchido via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="../js/produtos.js"></script>
+</body>
+</html>
