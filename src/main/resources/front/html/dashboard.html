@@ -1,13 +1,265 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stocker Manager | Dashboard</title>
+    <title>StockSys - Dashboard</title>
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Arquivo CSS -->
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-    
-    <h1>Usuario Logado com Sucesso</h1>
 
+    <!-- Sidebar / Barra Lateral -->
+    <aside class="sidebar glass-panel" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-boxes-stacked logo-icon"></i>
+            <h2>StockSys</h2>
+            <button class="close-menu" id="closeMenuBtn"><i class="fa-solid fa-times"></i></button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active"><a href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fa-solid fa-box"></i> Produtos</a></li>
+                <li><a href="#"><i class="fa-solid fa-tags"></i> Categorias</a></li>
+                <li><a href="#"><i class="fa-solid fa-arrow-right-to-bracket"></i> Entradas</a></li>
+                <li><a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Saídas</a></li>
+                <li><a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i> Movimentações</a></li>
+                <li><a href="#"><i class="fa-solid fa-truck-field"></i> Fornecedores</a></li>
+                <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> Vendas</a></li>
+                <li><a href="#"><i class="fa-solid fa-file-invoice"></i> Relatórios</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> Usuários</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                <li><a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title">
+                <button class="menu-toggle" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
+                <div>
+                    <h1>Dashboard</h1>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-box glass-panel">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Pesquisar produtos...">
+                </div>
+                <button class="notification-btn glass-panel">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="user-profile">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <span class="user-name">Administrador</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Cards de Indicadores -->
+        <section class="metrics-grid">
+            <div class="metric-card glass-panel">
+                <div class="card-icon"><i class="fa-solid fa-box-open"></i></div>
+                <div class="card-info">
+                    <h3>1.148</h3>
+                    <p>Total de produtos</p>
+                    <small>Produtos cadastrados</small>
+                </div>
+            </div>
+            <div class="metric-card glass-panel">
+                <div class="card-icon"><i class="fa-solid fa-cubes"></i></div>
+                <div class="card-info">
+                    <h3>8.452</h3>
+                    <p>Unidades em estoque</p>
+                    <small>Unidades disponíveis</small>
+                </div>
+            </div>
+            <div class="metric-card glass-panel warning">
+                <div class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="card-info">
+                    <h3>27</h3>
+                    <p>Estoque baixo</p>
+                    <small>Precisam de reposição</small>
+                </div>
+            </div>
+            <div class="metric-card glass-panel danger">
+                <div class="card-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                <div class="card-info">
+                    <h3>8</h3>
+                    <p>Produtos esgotados</p>
+                    <small>Sem estoque</small>
+                </div>
+            </div>
+            <div class="metric-card glass-panel success">
+                <div class="card-icon"><i class="fa-solid fa-wallet"></i></div>
+                <div class="card-info">
+                    <h3>R$ 184.560,00</h3>
+                    <p>Valor do estoque</p>
+                    <small>Valor estimado</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos -->
+        <section class="charts-section">
+            <div class="chart-container glass-panel span-2">
+                <div class="section-header">
+                    <h2>Movimentação do estoque</h2>
+                    <div class="filters">
+                        <button class="filter-btn">7 dias</button>
+                        <button class="filter-btn active">30 dias</button>
+                        <button class="filter-btn">6 meses</button>
+                        <button class="filter-btn">1 ano</button>
+                    </div>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="movementChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container glass-panel">
+                <div class="section-header">
+                    <h2>Estoque por categoria</h2>
+                </div>
+                <div class="canvas-wrapper donut-wrapper">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabela de Estoque Baixo -->
+        <section class="table-container glass-panel">
+            <div class="section-header">
+                <h2>Produtos com estoque baixo</h2>
+                <button class="btn-primary">Ver todos</button>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Atual</th>
+                            <th>Mínimo</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Camisa Polo</td>
+                            <td>Roupas</td>
+                            <td>3</td>
+                            <td>10</td>
+                            <td><span class="status-badge critical">Crítico</span></td>
+                            <td><button class="btn-icon"><i class="fa-solid fa-cart-plus"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Tênis Nike</td>
+                            <td>Calçados</td>
+                            <td>7</td>
+                            <td>10</td>
+                            <td><span class="status-badge low">Baixo</span></td>
+                            <td><button class="btn-icon"><i class="fa-solid fa-cart-plus"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Calça Jeans</td>
+                            <td>Roupas</td>
+                            <td>8</td>
+                            <td>15</td>
+                            <td><span class="status-badge low">Baixo</span></td>
+                            <td><button class="btn-icon"><i class="fa-solid fa-cart-plus"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Seções Inferiores -->
+        <section class="bottom-grid">
+            <!-- Últimas Movimentações -->
+            <div class="widget glass-panel">
+                <h2>Últimas movimentações</h2>
+                <ul class="list-group">
+                    <li class="list-item">
+                        <div class="item-icon bg-success"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="item-details">
+                            <strong>Entrada</strong> — Camisa Polo
+                            <span>Hoje, 10:45 • Admin</span>
+                        </div>
+                        <div class="item-value success">+50</div>
+                    </li>
+                    <li class="list-item">
+                        <div class="item-icon bg-danger"><i class="fa-solid fa-arrow-up"></i></div>
+                        <div class="item-details">
+                            <strong>Saída</strong> — Tênis Nike
+                            <span>Hoje, 09:30 • João V.</span>
+                        </div>
+                        <div class="item-value danger">-3</div>
+                    </li>
+                    <li class="list-item">
+                        <div class="item-icon bg-warning"><i class="fa-solid fa-wrench"></i></div>
+                        <div class="item-details">
+                            <strong>Ajuste</strong> — Calça Jeans
+                            <span>Ontem, 16:20 • Admin</span>
+                        </div>
+                        <div class="item-value warning">+5</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Mais Vendidos -->
+            <div class="widget glass-panel">
+                <h2>Produtos mais vendidos</h2>
+                <ul class="ranking-list">
+                    <li><span class="rank">1</span> <span class="name">Camisa Polo</span> <span class="qty">124 vend.</span></li>
+                    <li><span class="rank">2</span> <span class="name">Tênis Nike</span> <span class="qty">98 vend.</span></li>
+                    <li><span class="rank">3</span> <span class="name">Calça Jeans</span> <span class="qty">76 vend.</span></li>
+                    <li><span class="rank">4</span> <span class="name">Boné</span> <span class="qty">54 vend.</span></li>
+                    <li><span class="rank">5</span> <span class="name">Mochila</span> <span class="qty">41 vend.</span></li>
+                </ul>
+            </div>
+
+            <!-- Alertas e Ações -->
+            <div class="widget-col">
+                <div class="widget glass-panel alerts-widget">
+                    <h2>Alertas</h2>
+                    <div class="alert-box alert-danger">
+                        <i class="fa-solid fa-circle-exclamation"></i> 8 produtos estão completamente esgotados!
+                    </div>
+                    <div class="alert-box alert-warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i> 27 produtos abaixo do estoque mínimo.
+                    </div>
+                </div>
+
+                <div class="widget glass-panel actions-widget">
+                    <h2>Ações rápidas</h2>
+                    <div class="actions-grid">
+                        <button class="btn-action"><i class="fa-solid fa-plus"></i> Produto</button>
+                        <button class="btn-action"><i class="fa-solid fa-arrow-right-to-bracket"></i> Entrada</button>
+                        <button class="btn-action"><i class="fa-solid fa-arrow-right-from-bracket"></i> Saída</button>
+                        <button class="btn-action"><i class="fa-solid fa-file-invoice"></i> Relatório</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

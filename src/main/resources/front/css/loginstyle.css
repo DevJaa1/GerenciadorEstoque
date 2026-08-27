@@ -132,7 +132,7 @@ button[type="submit"]:active {
    LINKS E TEXTOS INFERIORES
    ========================================================================== */
 .login-text {
-    margin-top: 24px;
+    margin-top: 12px;
     text-align: center;
     font-size: 0.9rem;
     color: var(--text-secondary);
