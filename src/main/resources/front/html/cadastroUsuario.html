@@ -4,78 +4,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stocker Manager | Cadastro</title>
+    <title>StockSys | Cadastro de Usuário</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/stylecadastro.css">
 </head>
 
 <body>
 
     <div class="container">
-        <h1>Criar conta</h1>
+        <div class="brand-header">
+            <div class="brand-icon">
+                <i class="fa-solid fa-boxes-stacked"></i>
+            </div>
+            <h2>StockSys</h2>
+            <p class="brand-subtitle">Gerenciamento de Estoque</p>
+        </div>
+
+        <h1>Criar nova conta</h1>
+        <p class="auth-desc">Preencha os dados abaixo para cadastrar seu usuário</p>
 
         <form id="formCadastro">
             <div class="input-group">
                 <label for="nome">Nome Completo</label>
-                <input 
-                    type="text" 
-                    id="nome" 
-                    placeholder="Digite seu nome" 
-                    required
-                    minlength="3"
-                    maxlength="100"
-                >
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-user input-icon"></i>
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        placeholder="Ex: João da Silva" 
+                        required
+                        minlength="3"
+                        maxlength="100"
+                    >
+                </div>
             </div>
 
             <div class="input-group">
                 <label for="usuario">Nome de Usuário</label>
-                <input 
-                    type="text" 
-                    id="usuario" 
-                    placeholder="Ex: joaosilva" 
-                    required
-                >
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-at input-icon"></i>
+                    <input 
+                        type="text" 
+                        id="usuario" 
+                        placeholder="Ex: joaosilva" 
+                        required
+                    >
+                </div>
             </div>
 
             <div class="input-group">
                 <label for="login">Login de Acesso</label>
-                <input 
-                    type="text" 
-                    id="login" 
-                    placeholder="Ex: joao.login" 
-                    required
-                >
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-id-badge input-icon"></i>
+                    <input 
+                        type="text" 
+                        id="login" 
+                        placeholder="Ex: joao.login" 
+                        required
+                    >
+                </div>
             </div>
 
             <div class="input-group">
                 <label for="email">E-mail</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    placeholder="Informe seu e-mail" 
-                    required
-                >
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-envelope input-icon"></i>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="seu.email@exemplo.com" 
+                        required
+                    >
+                </div>
             </div>
 
             <div class="input-group">
-                <label for="senha">Crie sua senha</label>
-                <input 
-                    type="password" 
-                    id="senha" 
-                    placeholder="Digite sua senha (mínimo 8 caracteres)" 
-                    required
-                    minlength="8"
-                >
+                <label for="senha">Senha</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input 
+                        type="password" 
+                        id="senha" 
+                        placeholder="Mínimo 8 caracteres" 
+                        required
+                        minlength="8"
+                    >
+                </div>
             </div>
 
-            <button type="submit">Cadastrar</button>
+            <button type="submit">Cadastrar Usuário</button>
         </form>
 
-        <p class="login-text">
-            Já possui conta? <a href="login.html">Fazer login</a>
+        <p class="login-text signup-prompt">
+            Já possui uma conta? <a href="login.html">Fazer login</a>
         </p>
     </div>
 
-    <!-- Caminho corrigido com ../js/ -->
     <script src="../js/cadastro.js"></script>
 
 </body>

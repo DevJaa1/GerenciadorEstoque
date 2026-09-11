@@ -38,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let categoryChart = null;
 
     if (typeof Chart !== 'undefined') {
-        Chart.defaults.color = '#b3b3b3';
-        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
-        Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+        Chart.defaults.color = '#64748b';
+        Chart.defaults.borderColor = '#f1f5f9';
+        Chart.defaults.font.family = "'Plus Jakarta Sans', -apple-system, sans-serif";
         Chart.defaults.animation = { duration: 500 };
 
         // Gráfico de Movimentação (inicialmente com dados exemplo)
@@ -53,18 +53,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     datasets: [{
                         label: 'Movimentações',
                         data: [450, 600, 500, 800, 700, 1100, 950],
-                        borderColor: '#8a70ff',
-                        backgroundColor: 'rgba(138, 112, 255, 0.2)',
-                        borderWidth: 2,
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.08)',
+                        borderWidth: 2.5,
                         tension: 0.4,
-                        fill: true
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#4f46e5',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true } }
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleColor: '#ffffff',
+                            bodyColor: '#e2e8f0',
+                            padding: 10,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: { 
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { size: 11 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 11 } }
+                        }
+                    }
                 }
             });
         }
@@ -79,14 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     datasets: [{
                         data: [],
                         backgroundColor: [
-                            '#8a70ff',
-                            '#00b894',
-                            '#fdcb6e',
-                            '#e17055',
-                            '#0984e3',
-                            '#d63031'
+                            '#4f46e5',
+                            '#10b981',
+                            '#f59e0b',
+                            '#3b82f6',
+                            '#ec4899',
+                            '#8b5cf6'
                         ],
-                        borderWidth: 0,
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
                         hoverOffset: 4
                     }]
                 },
@@ -94,7 +119,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     responsive: true,
                     maintainAspectRatio: false,
                     cutout: '75%',
-                    plugins: { legend: { position: 'bottom' } }
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 14,
+                                font: { size: 12 }
+                            }
+                        } 
+                    }
                 }
             });
         }

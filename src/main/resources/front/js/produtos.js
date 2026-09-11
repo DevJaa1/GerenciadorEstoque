@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    /* =========================================
+       0. Menu Mobile (Sidebar)
+       ========================================= */
+    const menuToggle = document.getElementById('menuToggleBtn');
+    const closeMenu = document.getElementById('closeMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('open');
+        });
+    }
+
+    if (closeMenu && sidebar) {
+        closeMenu.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+    }
+
     const API_URL = "http://localhost:8080/produtos";
     const tabelaProdutos = document.getElementById('tabelaProdutos');
     const buscaInput = document.getElementById('buscaProduto');
@@ -9,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filtroEsgotados = document.getElementById('filtroEsgotados');
 
     let todosProdutos = [];
-    let filtroAtivo = 'todos'; // 'todos', 'baixa', 'esgotados'
+    let filtroAtivo = 'todos';
 
     // =========================================
     // 1. Carregar produtos do Backend
@@ -24,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
             renderizarTabela();
         } catch (erro) {
             console.error("Erro de conexão com o servidor:", erro);
-            tabelaProdutos.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--danger);">Não foi possível carregar os produtos do servidor.</td></tr>`;
+            if (tabelaProdutos) {
+                tabelaProdutos.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--danger);">Não foi possível carregar os produtos do servidor.</td></tr>`;
+            }
         }
     }
 
@@ -35,9 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tabelaProdutos) return;
         tabelaProdutos.innerHTML = '';
 
-        const termoBusca = buscaInput.value.toLowerCase().trim();
+        const termoBusca = buscaInput ? buscaInput.value.toLowerCase().trim() : '';
 
-        // Aplicar filtros
         let produtosFiltrados = todosProdutos.filter(p => {
             const matchBusca = p.nomeProduto.toLowerCase().includes(termoBusca) || 
                                (p.descricao && p.descricao.toLowerCase().includes(termoBusca));
@@ -77,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const catName = p.categoria ? p.categoria.nomeCategoria : 'Sem Categoria';
             const fornecedorName = p.fornecedor ? p.fornecedor.nomeFornecedor || 'Desconhecido' : 'Sem Fornecedor';
 
-            // Escolha de ícone baseado no nome do produto para manter a estética
             let iconClass = 'fa-box';
             const nomeLower = p.nomeProduto.toLowerCase();
             if (nomeLower.includes('laptop') || nomeLower.includes('notebook') || nomeLower.includes('computador')) {
@@ -116,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
             tabelaProdutos.appendChild(tr);
         });
 
-        // Configurar botões de exclusão
         configurarBotoesExclusao();
     }
 
@@ -126,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function configurarBotoesExclusao() {
         const botoesExcluir = document.querySelectorAll('.btn-excluir');
         botoesExcluir.forEach(btn => {
-            btn.addEventListener('click', async (e) => {
+            btn.addEventListener('click', async () => {
                 const id = btn.getAttribute('data-id');
                 if (confirm(`Deseja realmente excluir o produto #${id}?`)) {
                     try {
@@ -155,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function alterarFiltroAtivo(novoFiltro, btnClicado) {
         filtroAtivo = novoFiltro;
         
-        // Atualizar classes dos botões
         [filtroTodos, filtroBaixa, filtroEsgotados].forEach(b => {
             if (b) b.classList.remove('active');
         });
@@ -174,6 +191,162 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Torna a função acessível no escopo global para atualizar a tabela após cadastro
+    window.carregarProdutos = carregarProdutos;
+
     // Iniciar carregamento
     carregarProdutos();
 });
+
+/* =========================================
+   5. Funções Globais do Modal de Cadastro
+   ========================================= */
+
+function abrirModal() {
+    const modal = document.getElementById('modalProduto');
+    if (modal) {
+        modal.style.display = 'flex';
+        carregarCategorias();
+        carregarFornecedores();
+    }
+}
+
+function fecharModal() {
+    const modal = document.getElementById('modalProduto');
+    const form = document.getElementById('formProduto');
+    if (modal) modal.style.display = 'none';
+    if (form) form.reset();
+}
+
+/// Carregar Categorias no Select
+// Carregar Categorias no Select
+async function carregarCategorias() {
+    const select = document.getElementById('categoriaSelect');
+    if (!select) return;
+
+    try {
+        const response = await fetch('http://localhost:8080/categorias');
+
+        if (!response.ok) throw new Error(`Status HTTP: ${response.status}`);
+
+        const responseData = await response.json();
+        
+        // Trata se o backend retornar uma lista paginada (Page) ou uma lista simples (List)
+        const categorias = responseData.content ? responseData.content : responseData;
+
+        console.log("Categorias processadas:", categorias);
+
+        if (!Array.isArray(categorias) || categorias.length === 0) {
+            select.innerHTML = '<option value="">Nenhuma categoria cadastrada</option>';
+            return;
+        }
+
+        select.innerHTML = '<option value="">Selecione uma categoria...</option>';
+        categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = cat.nomeCategoria; // Atributo exato do Categoria.java
+            select.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+        select.innerHTML = '<option value="">Erro ao carregar categorias</option>';
+    }
+}
+
+// Carregar Fornecedores no Select
+async function carregarFornecedores() {
+    const select = document.getElementById('fornecedorSelect');
+    if (!select) return;
+
+    try {
+        const response = await fetch('http://localhost:8080/fornecedores');
+
+        if (!response.ok) throw new Error(`Status HTTP: ${response.status}`);
+
+        const responseData = await response.json();
+
+        // Trata se o backend retornar uma lista paginada (Page) ou uma lista simples (List)
+        const fornecedores = responseData.content ? responseData.content : responseData;
+
+        console.log("Fornecedores processados:", fornecedores);
+
+        if (!Array.isArray(fornecedores) || fornecedores.length === 0) {
+            select.innerHTML = '<option value="">Nenhum fornecedor cadastrado</option>';
+            return;
+        }
+
+        select.innerHTML = '<option value="">Selecione um fornecedor...</option>';
+        fornecedores.forEach(forn => {
+            const option = document.createElement('option');
+            option.value = forn.id;
+            option.textContent = forn.nome; // Atributo exato do Fornecedor.java
+            select.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar fornecedores:', error);
+        select.innerHTML = '<option value="">Erro ao carregar fornecedores</option>';
+    }
+}
+/* =========================================
+   6. Função para Salvar/Cadastrar Produto
+   ========================================= */
+async function cadastrarProduto(event) {
+    event.preventDefault(); // Impede a página de recarregar
+
+    const categoriaId = document.getElementById('categoriaSelect').value;
+    const fornecedorId = document.getElementById('fornecedorSelect').value;
+
+    if (!categoriaId) {
+        alert('Por favor, selecione uma categoria.');
+        return;
+    }
+
+    if (!fornecedorId) {
+        alert('Por favor, selecione um fornecedor.');
+        return;
+    }
+
+    // Estrutura do objeto JSON enviada ao backend
+    const produtoData = {
+        nomeProduto: document.getElementById('nomeProduto').value,
+        descricao: document.getElementById('descricao').value,
+        quantidadeItens: parseInt(document.getElementById('quantidadeItens').value) || 0,
+        precoCusto: parseFloat(document.getElementById('precoCusto').value) || 0.0,
+        precoVenda: parseFloat(document.getElementById('precoVenda').value) || 0.0,
+        ativo: true,
+        fornecedor: {
+            id: parseInt(fornecedorId)
+        }
+    };
+
+    // CORREÇÃO: URL ajustada de acordo com o @PostMapping do ProdutoController.java
+    const url = `http://localhost:8080/produtos/categorias/${categoriaId}/produtos`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(produtoData)
+        });
+
+        if (response.ok) {
+            alert('Produto cadastrado com sucesso!');
+            fecharModal();
+            if (window.carregarProdutos) {
+                window.carregarProdutos(); // Recarrega a tabela de produtos
+            }
+        } else {
+            const erroTxt = await response.text();
+            console.error('Erro no servidor:', erroTxt);
+            alert('Erro ao cadastrar produto. Verifique se os dados estão corretos.');
+        }
+    } catch (error) {
+        console.error('Erro de rede/conexão:', error);
+        alert('Não foi possível conectar ao servidor.');
+    }
+}

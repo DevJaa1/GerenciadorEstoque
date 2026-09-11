@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockSys - Produtos</title>
-    <link rel="stylesheet" href="../css/produtosstyle.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/produtosstyle.css"> 
 </head>
 <body>
-    <aside class="sidebar glass-panel">
+    <aside class="sidebar glass-panel" id="sidebar">
         <div class="sidebar-header">
             <i class="fa-solid fa-boxes-stacked logo-icon"></i>
             <h2>StockSys</h2>
-            <button class="close-menu"><i class="fas fa-times"></i></button>
+            <button class="close-menu" id="closeMenuBtn"><i class="fa-solid fa-times"></i></button>
         </div>
         
         <nav class="sidebar-nav">
@@ -29,40 +32,43 @@
                 <li><a href="#"><i class="fa-solid fa-users"></i> Usuários</a></li>
             </ul>
         </nav>
-       <div class="sidebar-footer">
-    <ul>
-        <li>
-            <a href="#"><i class="fa-solid fa-gear"></i> Configurações</a>
-        </li>
-        <li>
-            <a href="../html/login.html" class="logout">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
-            </a>
-        </li>
-    </ul>
-</div>
+        
+        <div class="sidebar-footer">
+            <ul>
+                <li>
+                    <a href="#"><i class="fa-solid fa-gear"></i> Configurações</a>
+                </li>
+                <li>
+                    <a href="../html/login.html" class="logout">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+                    </a>
+                </li>
+            </ul>
+        </div>
     </aside>
 
     <main class="main-content">
         <header class="header">
             <div class="header-title">
-                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="menu-toggle" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
                 <div>
                     <h1>Gerenciar Produtos</h1>
+                    <p>Visualize, filtre e gerencie todo o catálogo de itens</p>
                 </div>
             </div>
             
             <div class="header-actions">
                 <div class="search-box glass-panel">
-                    <i class="fas fa-search" style="color: var(--text-secondary);"></i>
-                    <input type="text" id="buscaProduto" placeholder="Buscar produto...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="buscaProduto" placeholder="Buscar produtos...">
                 </div>
                 <button class="notification-btn glass-panel">
-                    <i class="fas fa-bell"></i>
+                    <i class="fa-regular fa-bell"></i>
                     <span class="badge">3</span>
                 </button>
                 <div class="user-profile">
-                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <span class="user-name">Administrador</span>
                 </div>
             </div>
         </header>
@@ -70,15 +76,72 @@
         <section class="table-container glass-panel">
             <div class="section-header">
                 <h2>Catálogo de Produtos</h2>
-                <div style="display: flex; gap: 10px;">
+                <div class="table-actions">
                     <div class="filters">
                         <button class="filter-btn active" id="filtroTodos">Todos</button>
                         <button class="filter-btn" id="filtroBaixa">Em Baixa</button>
                         <button class="filter-btn" id="filtroEsgotados">Esgotados</button>
                     </div>
-                    <button class="btn-primary"><i class="fas fa-plus"></i> Novo Produto</button>
+                    <button class="btn-primary" onclick="abrirModal()"><i class="fa-solid fa-plus"></i> Novo Produto</button>
                 </div>
             </div>
+
+        <div id="modalProduto" class="modal" style="display: none;">
+  <div class="modal-conteudo">
+    <h2>Cadastrar Novo Produto</h2>
+    
+    <form id="formProduto" onsubmit="cadastrarProduto(event)">
+  <div>
+    <label for="categoriaSelect">Categoria</label>
+    <select id="categoriaSelect" required>
+      <option value="">Carregando categorias...</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="fornecedorSelect">Fornecedor</label>
+    <select id="fornecedorSelect" required>
+      <option value="">Carregando fornecedores...</option>
+    </select>
+  </div>
+
+  <div class="campo-full">
+    <label for="nomeProduto">Nome do Produto</label>
+    <input type="text" id="nomeProduto" required>
+  </div>
+
+  <div class="campo-full">
+    <label for="descricao">Descrição</label>
+    <textarea id="descricao" required></textarea>
+  </div>
+
+  <div>
+    <label for="precoCusto">Preço Custo (R$)</label>
+    <input type="number" step="0.01" id="precoCusto" required>
+  </div>
+
+  <div>
+    <label for="precoVenda">Preço Venda (R$)</label>
+    <input type="number" step="0.01" id="precoVenda" required>
+  </div>
+
+  <div class="campo-full">
+    <label for="quantidadeItens">Estoque Inicial</label>
+    <input type="number" id="quantidadeItens" required>
+  </div>
+
+  <div class="checkbox-container">
+    <input type="checkbox" id="ativo" checked>
+    <label for="ativo">Ativo no sistema</label>
+  </div>
+
+  <div class="acoes-modal">
+    <button type="button" onclick="fecharModal()">Cancelar</button>
+    <button type="submit">Salvar</button>
+  </div>
+</form>
+  </div>
+</div>
 
             <div class="table-responsive">
                 <table>
