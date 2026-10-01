@@ -52,4 +52,8 @@ public class MovimentacaoService {
 
     }
 
+    public java.util.List<MovimentacaoEstoque> listAll() {
+        return movimentacaoRepositorio.findAllByOrderByDataHoraDesc();
+    }
+
 }

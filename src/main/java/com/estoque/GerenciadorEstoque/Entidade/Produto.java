@@ -44,6 +44,7 @@ public class Produto {
     private BigDecimal precoCusto;
 
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToMany(mappedBy = "produto")
     private List<MovimentacaoEstoque> movimentacoes;
 

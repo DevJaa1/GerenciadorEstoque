@@ -52,10 +52,6 @@
             </div>
             
             <div class="header-actions">
-                <div class="search-box glass-panel">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Pesquisar produtos...">
-                </div>
                 <button class="notification-btn glass-panel">
                     <i class="fa-regular fa-bell"></i>
                     <span class="badge">3</span>
@@ -106,31 +102,6 @@
                     <h3 id="valorEstoque">R$ 0,00</h3>
                     <p>Valor do estoque</p>
                     <small>Valor estimado</small>
-                </div>
-            </div>
-        </section>
-
-        <section class="charts-section">
-            <div class="chart-container glass-panel span-2">
-                <div class="section-header">
-                    <h2>Movimentação do estoque</h2>
-                    <div class="filters">
-                        <button class="filter-btn">7 dias</button>
-                        <button class="filter-btn active">30 dias</button>
-                        <button class="filter-btn">6 meses</button>
-                        <button class="filter-btn">1 ano</button>
-                    </div>
-                </div>
-                <div class="canvas-wrapper">
-                    <canvas id="movementChart"></canvas>
-                </div>
-            </div>
-            <div class="chart-container glass-panel">
-                <div class="section-header">
-                    <h2>Estoque por categoria</h2>
-                </div>
-                <div class="canvas-wrapper donut-wrapper">
-                    <canvas id="categoryChart"></canvas>
                 </div>
             </div>
         </section>
@@ -204,12 +175,6 @@
             <div class="widget-col">
                 <div class="widget glass-panel alerts-widget">
                     <h2>Alertas</h2>
-                    <div class="alert-box alert-danger">
-                        <i class="fa-solid fa-circle-exclamation"></i> 8 produtos estão completamente esgotados!
-                    </div>
-                    <div class="alert-box alert-warning">
-                        <i class="fa-solid fa-triangle-exclamation"></i> 27 produtos abaixo do estoque mínimo.
-                    </div>
                 </div>
 
                 <div class="widget glass-panel actions-widget">

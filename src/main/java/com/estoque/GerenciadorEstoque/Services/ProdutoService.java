@@ -6,6 +6,7 @@ import com.estoque.GerenciadorEstoque.Entidade.MovimentacaoEstoque;
 import com.estoque.GerenciadorEstoque.Entidade.Produto;
 import com.estoque.GerenciadorEstoque.Repositorio.CategoriaRepositorio;
 import com.estoque.GerenciadorEstoque.Repositorio.FornecedorRepositorio;
+import com.estoque.GerenciadorEstoque.Repositorio.MovimentacaoRepositorio;
 import com.estoque.GerenciadorEstoque.Repositorio.ProdutoRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -21,11 +22,16 @@ public class ProdutoService {
     private final ProdutoRepositorio produtoRepo;
     private final CategoriaRepositorio catRepo;
     private final FornecedorRepositorio fornecedorRepo;
+    private final MovimentacaoRepositorio movRepo;
 
-    public ProdutoService(ProdutoRepositorio produtoRepo, CategoriaRepositorio catRepo, FornecedorRepositorio fornecedorRepo) {
+    public ProdutoService(ProdutoRepositorio produtoRepo, CategoriaRepositorio catRepo,
+            FornecedorRepositorio fornecedorRepo,
+            MovimentacaoRepositorio movRepo) {
+
         this.produtoRepo = produtoRepo;
         this.catRepo = catRepo;
         this.fornecedorRepo = fornecedorRepo;
+        this.movRepo = movRepo;
     }
 
     // Find all
@@ -50,8 +56,8 @@ public class ProdutoService {
     @Transactional
     public Produto registerProduct(Produto newProd, Long categoriaId) {
 
-        if(newProd.getFornecedor() == null ||
-                newProd.getFornecedor().getId() == null){
+        if (newProd.getFornecedor() == null ||
+                newProd.getFornecedor().getId() == null) {
             throw new RuntimeException("Supplier must be informed");
         }
 
@@ -161,10 +167,10 @@ public class ProdutoService {
         return produtoRepo.save(productExist);
     }
 
-    //delete product by id
+    // delete product by id
     @Transactional
     public void deleteProductId(Long id) {
-        if(!produtoRepo.existsById(id)) {
+        if (!produtoRepo.existsById(id)) {
             throw new RuntimeException("Product not found!");
         }
         produtoRepo.deleteById(id);

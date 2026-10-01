@@ -7,14 +7,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movimentacoes")
+@CrossOrigin(origins = "*")
 public class MovimentacaoEstoqueController {
 
     private final MovimentacaoService movimentacaoService;
 
     public MovimentacaoEstoqueController(MovimentacaoService movimentacaoService) {
         this.movimentacaoService = movimentacaoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MovimentacaoEstoque>> listAll() {
+        return ResponseEntity.ok(movimentacaoService.listAll());
     }
 
     /**
